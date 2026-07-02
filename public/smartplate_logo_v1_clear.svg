@@ -1,0 +1,26 @@
+<svg width="100%" viewBox="0 0 680 400" role="img" style="" xmlns="http://www.w3.org/2000/svg">
+  <title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">SmartPlate logo</title>
+  <desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">SmartPlate classic orange circuit chef hat logo</desc>
+
+  <!-- Chef hat dome -->
+  <path d="M340 80 C340 38 295 16 268 46 C252 26 218 26 210 54 C180 48 158 72 166 102 L178 208 L502 208 L514 102 C522 72 500 48 470 54 C462 26 428 26 412 46 C385 16 340 38 340 80Z" fill="none" stroke="#e8542a" stroke-width="13" stroke-linejoin="round" style="fill:none;stroke:rgb(232, 84, 42);color:rgb(255, 255, 255);stroke-width:13px;stroke-linecap:butt;stroke-linejoin:round;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Hat brim -->
+  <rect x="178" y="203" width="324" height="26" rx="6" fill="none" stroke="#e8542a" stroke-width="13" style="fill:none;stroke:rgb(232, 84, 42);color:rgb(255, 255, 255);stroke-width:13px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Circuit: center vertical -->
+  <line x1="340" y1="203" x2="340" y2="148" stroke="#e8542a" stroke-width="5" style="fill:rgb(0, 0, 0);stroke:rgb(232, 84, 42);color:rgb(255, 255, 255);stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="340" cy="138" r="10" fill="none" stroke="#e8542a" stroke-width="5" style="fill:none;stroke:rgb(232, 84, 42);color:rgb(255, 255, 255);stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Circuit: left branch -->
+  <polyline points="340,170 300,170 272,142" fill="none" stroke="#e8542a" stroke-width="5" style="fill:none;stroke:rgb(232, 84, 42);color:rgb(255, 255, 255);stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="262" cy="132" r="10" fill="none" stroke="#e8542a" stroke-width="5" style="fill:none;stroke:rgb(232, 84, 42);color:rgb(255, 255, 255);stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Circuit: right branch -->
+  <polyline points="340,170 380,170 408,142" fill="none" stroke="#e8542a" stroke-width="5" style="fill:none;stroke:rgb(232, 84, 42);color:rgb(255, 255, 255);stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+  <circle cx="418" cy="132" r="10" fill="none" stroke="#e8542a" stroke-width="5" style="fill:none;stroke:rgb(232, 84, 42);color:rgb(255, 255, 255);stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+
+  <!-- Brand name -->
+  <text x="340" y="310" text-anchor="middle" font-family="var(--font-sans)" font-weight="700" font-size="62" fill="#e8542a" style="fill:rgb(232, 84, 42);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, sans-serif;font-size:62px;font-weight:700;text-anchor:middle;dominant-baseline:auto">SmartPlate</text>
+
+</svg>
