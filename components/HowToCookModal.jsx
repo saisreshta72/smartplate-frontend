@@ -36,9 +36,9 @@ const HowToCookModal = () => {
   return (
    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
     <DialogTrigger asChild>
-        <button className="hover:text-orange-600 transition-colors flex items-center gap-1.5 text-sm font-medium text-stone-600">
-          <ChefHat className="w-4 h-4" />
-          How to Cook?
+        <button className="hover:text-orange-600 transition-colors flex items-center gap-1.5 text-xs sm:text-sm font-medium text-stone-600 shrink-0">
+          <ChefHat className="w-4 h-4 text-orange-600 shrink-0" />
+          <span className="hidden sm:inline">How to Cook?</span>
         </button>
       </DialogTrigger>
     <DialogContent className="sm:max-w-lg">

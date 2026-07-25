@@ -11,40 +11,48 @@ export default function ImageUploader({ onImageSelect, loading }) {
   const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
 
-  const onDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
+  const handleFile = useCallback(
+    (file) => {
       if (!file) return;
+      const isImage = file.type.startsWith("image/") || /\.(jpg|jpeg|png|webp|avif|jfif|gif|bmp)$/i.test(file.name);
+      if (!isImage) return;
 
-      // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
       };
       reader.readAsDataURL(file);
-
-      // Pass file to parent
       onImageSelect(file);
     },
     [onImageSelect]
   );
 
+  const onDrop = useCallback(
+    (acceptedFiles, fileRejections) => {
+      const file = acceptedFiles[0] || (fileRejections[0] ? fileRejections[0].file : null);
+      if (file) handleFile(file);
+    },
+    [handleFile]
+  );
+
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
     accept: {
-      "image/*": [".jpeg", ".jpg", ".png", ".webp"],
+      "image/*": [],
     },
     maxFiles: 1,
-    maxSize: 10485760, // 10MB
-    noClick: true,
-    noKeyboard: true,
   });
+
+  const handleNativeDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const file = e.dataTransfer.files?.[0];
+    if (file) handleFile(file);
+  };
 
   const handleFileInputChange = (e) => {
     const file = e.target.files?.[0];
-    if (file) {
-      onDrop([file]);
-    }
+    if (file) handleFile(file);
   };
 
   const clearImage = () => {
@@ -87,6 +95,11 @@ export default function ImageUploader({ onImageSelect, loading }) {
     <>
       <div
         {...getRootProps()}
+        onDragOver={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        onDrop={handleNativeDrop}
         className={`relative w-full aspect-square border-2 border-dashed rounded-2xl transition-all cursor-pointer ${
           isDragActive
             ? "border-orange-600 bg-orange-50 scale-[1.02]"

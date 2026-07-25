@@ -1,5 +1,5 @@
 import React from "react";
-import { Globe, ArrowRight, Flame } from "lucide-react";
+import { Globe, ArrowRight, Flame, Package, ChefHat, Sparkles } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -19,22 +19,57 @@ const DashboardPage = async () => {
   const recipeOfTheDay = recipeData?.recipe;
   const categories = categoriesData?.categories || [];
   const areas = [...new Map((areasData?.areas || []).map(a => [a.strArea, a])).values()];
-   const filteredAreas = areas.filter((area) => allowedCuisines.includes(area.strArea)); 
+  const filteredAreas = areas.filter((area) => allowedCuisines.includes(area.strArea));
 
   return (
-    <div className="min-h-screen bg-stone-50 py-16 px-4">
+    <div className="min-h-screen bg-stone-50 pt-20 pb-24 md:pb-16 px-4">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
-        <div className="mb-5">
-          <h1 className="text-5xl md:text-7xl font-bold text-stone-900 mb-4 tracking-tight leading-tight">
-            Fresh Recipes, Servd Daily 🔥
+        <div className="mb-8">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-stone-900 mb-3 tracking-tight leading-tight">
+            Fresh Recipes, SmartPlate Daily 🔥
           </h1>
-          <p className="text-xl text-stone-600 font-light max-w-2xl">
+          <p className="text-base sm:text-xl text-stone-600 font-light max-w-2xl">
             Discover thousands of recipes from around the world. Cook, create,
             and savor.
           </p>
         </div>
+
+        {/* Pantry & AI Chef Quick Action Banner */}
+        <section className="mb-12 md:mb-16">
+          <div className="bg-linear-to-r from-orange-600 to-amber-600 text-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-xl relative overflow-hidden">
+            <div className="absolute right-0 top-0 translate-x-12 -translate-y-6 opacity-10 pointer-events-none hidden sm:block">
+              <Package className="w-96 h-96" />
+            </div>
+            <div className="relative z-10 max-w-3xl">
+              <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider text-orange-100 mb-4 border border-white/30">
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                AI Pantry Assistant
+              </div>
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
+                Got Ingredients? Let AI Cook for You! 🍳
+              </h2>
+              <p className="text-orange-100 text-sm sm:text-base md:text-lg font-light leading-relaxed mb-6 sm:mb-8">
+                Add your fridge & pantry items manually or by scanning photo. SmartPlate AI instantly turns your available ingredients into delicious step-by-step recipes.
+              </p>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full">
+                <Link href="/pantry/recipes" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto bg-white text-orange-700 hover:bg-orange-50 font-extrabold px-6 sm:px-8 py-5 sm:py-6 rounded-2xl text-sm sm:text-base shadow-md gap-2 justify-center">
+                    <ChefHat className="w-5 h-5 text-orange-600" />
+                    What Can I Cook Today?
+                  </Button>
+                </Link>
+                <Link href="/pantry" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto bg-stone-900 hover:bg-stone-800 text-white font-extrabold px-6 sm:px-7 py-5 sm:py-6 rounded-2xl text-sm sm:text-base gap-2 shadow-md border-2 border-stone-900 justify-center">
+                    <Package className="w-5 h-5 text-orange-400" />
+                    Manage My Pantry
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Recipe of the Day */}
         {recipeOfTheDay && (
@@ -140,25 +175,26 @@ const DashboardPage = async () => {
           </div>
 
 
-         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-  {filteredAreas.map((area) => (
-    <Link
-      key={area.strArea}
-      href={`/recipes/cuisine/${area.strArea.toLowerCase().replace(/\s+/g, "-")}`}
-    >
-      <div className="bg-stone-50 p-5 border-2 border-stone-200 hover:border-orange-600 hover:shadow-lg transition-all group cursor-pointer">
-        <div className="flex items-center gap-2">
-          <span className="text-3xl">
-            {getCountryFlag(area.strArea)}
-          </span>
-          <span className="font-bold text-stone-900 group-hover:text-orange-600 transition-colors text-sm">
-            {area.strArea}
-          </span>
-        </div>
-      </div>
-    </Link>
-  ))}
-</div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 sm:gap-4">
+            {filteredAreas.map((area) => (
+              <Link
+                key={area.strArea}
+                href={`/recipes/cuisine/${area.strArea.toLowerCase().replace(/\s+/g, "-")}`}
+                className="min-w-0"
+              >
+                <div className="bg-stone-50 p-3 sm:p-5 border-2 border-stone-200 hover:border-orange-600 hover:shadow-lg transition-all group cursor-pointer rounded-xl h-full flex items-center">
+                  <div className="flex items-center gap-2 min-w-0 overflow-hidden">
+                    <span className="text-2xl sm:text-3xl shrink-0">
+                      {getCountryFlag(area.strArea)}
+                    </span>
+                    <span className="font-bold text-stone-900 group-hover:text-orange-600 transition-colors text-xs sm:text-sm truncate">
+                      {area.strArea}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
 
 
         </section>

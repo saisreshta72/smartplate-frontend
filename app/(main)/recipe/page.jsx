@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ClockLoader } from "react-spinners";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, Lightbulb,  CheckCircle2, ChefHat,  Bookmark,  Download, BookmarkCheck, Users,  Flame, AlertCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, Clock, Lightbulb,  CheckCircle2, ChefHat,  Bookmark,  Download, BookmarkCheck, Users,  Flame, AlertCircle, Loader2, Package } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { Suspense } from "react";
 import { RecipePDF } from "@/components/RecipePDF";
@@ -18,6 +18,7 @@ import {
   saveRecipeToCollection,
   removeRecipeFromCollection,
 } from "@/actions/recipe.actions";
+import { getPantryItems } from "@/actions/pantry.actions";
 
 function RecipeContent(){
 const searchParams = useSearchParams();
@@ -27,6 +28,38 @@ const searchParams = useSearchParams();
   const [recipe, setRecipe] = useState(null);
   const [recipeId, setRecipeId] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
+  const [pantryItemNames, setPantryItemNames] = useState([]);
+
+  // Load Pantry Items for cross-referencing
+  useEffect(() => {
+    async function loadPantry() {
+      try {
+        const res = await getPantryItems();
+        const serverNames = (res?.items || []).map((i) => i.name.toLowerCase());
+        const localItems =
+          typeof window !== "undefined"
+            ? JSON.parse(localStorage.getItem("smartplate_local_pantry") || "[]")
+            : [];
+        const localNames = localItems.map((i) => i.name.toLowerCase());
+        setPantryItemNames([...serverNames, ...localNames]);
+      } catch (e) {
+        const localItems =
+          typeof window !== "undefined"
+            ? JSON.parse(localStorage.getItem("smartplate_local_pantry") || "[]")
+            : [];
+        setPantryItemNames(localItems.map((i) => i.name.toLowerCase()));
+      }
+    }
+    loadPantry();
+  }, []);
+
+  const isInPantry = (ingName) => {
+    if (!ingName || pantryItemNames.length === 0) return false;
+    const nameLower = ingName.toLowerCase();
+    return pantryItemNames.some(
+      (p) => p.includes(nameLower) || nameLower.includes(p)
+    );
+  };
 
 
     // Get or generate recipe
@@ -198,7 +231,7 @@ const searchParams = useSearchParams();
 
    // Main recipe view
   return(
-    <div className="min-h-screen bg-stone-50 pt-24 pb-16 ">
+    <div className="min-h-screen bg-stone-50 pt-20 pb-24 md:pb-16 px-4">
     <div className="container mx-auto max-w-4xl">
     <div className="mb-8">
       <Link
@@ -329,11 +362,30 @@ const searchParams = useSearchParams();
     <div className="grid lg:grid-cols-3 gap-6">
          {/* Left Column - Ingredients & Nutrition */}
          <div className="lg:col-span-1 space-y-6">
-       <div className="bg-white p-6 border-2 border-stone-200 lg:sticky lg:top-24">
-        <h2 className="text-2xl font-bold text-stone-900 mb-4 flex items-center gap-2">
-                <ChefHat className="w-6 h-6 text-orange-600" />
-                Ingredients
-              </h2>
+       <div className="bg-white p-4 sm:p-6 border-2 border-stone-200 lg:sticky lg:top-24 overflow-hidden rounded-2xl">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-stone-900 flex items-center gap-2">
+            <ChefHat className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 shrink-0" />
+            Ingredients
+          </h2>
+          {pantryItemNames.length > 0 && (
+            <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200 text-[11px] font-bold gap-1 shrink-0">
+              <Package className="w-3 h-3" />
+              Pantry Active
+            </Badge>
+          )}
+        </div>
+
+        {/* Pantry Stock Summary Banner */}
+        {pantryItemNames.length > 0 && recipe.ingredients && (
+          <div className="mb-5 p-3 bg-stone-50 rounded-xl border border-stone-200 flex flex-wrap items-center justify-between text-xs font-medium text-stone-600 gap-1">
+            <span>Pantry Availability:</span>
+            <span className="font-extrabold text-orange-600 shrink-0">
+              {recipe.ingredients.filter((ing) => isInPantry(ing.item)).length} of {recipe.ingredients.length} in stock
+            </span>
+          </div>
+        )}
+
       {/* Group by category */}
               {Object.entries(
                 recipe.ingredients.reduce((acc, ing) => {
@@ -344,21 +396,37 @@ const searchParams = useSearchParams();
                 }, {})
               ).map(([category, items]) => (
                 <div key={category} className="mb-6 last:mb-0">
-                  <h3 className="text-sm font-bold text-stone-500 uppercase tracking-wide mb-3">
+                  <h3 className="text-xs sm:text-sm font-bold text-stone-500 uppercase tracking-wide mb-3">
                     {category}
                   </h3>
                   <ul className="space-y-2">
-                    {items.map((ingredient, i) => (
-                      <li
-  key={i}
-  className="flex flex-col py-2 border-b border-stone-100 last:border-0"
->
-  <span className="text-stone-700">{ingredient.item}</span>
-  <span className="font-bold text-orange-600 text-sm mt-1">
-    {ingredient.amount}
-  </span>
-</li>
-                    ))}
+                    {items.map((ingredient, i) => {
+                      const inPantry = isInPantry(ingredient.item);
+                      return (
+                        <li
+                          key={i}
+                          className="flex items-start justify-between py-2.5 border-b border-stone-100 last:border-0 gap-2"
+                        >
+                          <div className="flex-1 min-w-0 pr-1">
+                            <span className="text-stone-800 font-medium block text-xs sm:text-sm break-words leading-tight">
+                              {ingredient.item}
+                            </span>
+                            <span className="font-bold text-orange-600 text-xs mt-0.5 block">
+                              {ingredient.amount}
+                            </span>
+                          </div>
+                          {inPantry ? (
+                            <Badge className="bg-green-100 hover:bg-green-100 text-green-800 border border-green-300 text-[9px] sm:text-[10px] font-extrabold px-2 py-0.5 rounded-full shrink-0">
+                              In Pantry ✓
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="bg-stone-50 text-stone-500 border border-stone-200 text-[9px] sm:text-[10px] font-medium px-2 py-0.5 rounded-full shrink-0">
+                              To Buy 🛒
+                            </Badge>
+                          )}
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               ))}
